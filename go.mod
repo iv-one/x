@@ -10,6 +10,7 @@ require (
 	// A dependency to watch: recurring panic class (GO-2026-4815).
 	golang.org/x/image v0.46.0
 	golang.org/x/net v0.59.0
+	google.golang.org/protobuf v1.36.12
 )
 
 require (

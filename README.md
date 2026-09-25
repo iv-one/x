@@ -13,7 +13,7 @@ go get github.com/iv-one/x
 | `cache` | generic in-memory caches and a registry that invalidates them together |
 | `clock` | a process clock that can run ahead, for testing expiry |
 | `cryptox` | random keys and passwords |
-| `entity` | the `Entity` / `ID` interfaces that `protoc-gen-go-entity` output implements |
+| `entity` | the `Entity` / `ID` interfaces and the storage `Scheme` that `protoc-gen-go-entity` generates; `options.proto` annotates messages with their storage options |
 | `errorsx`, `errorsx/raise` | HTTP-shaped errors; errors wrapped with their call site |
 | `imagefetch`, `imagex` | fetching and canonicalizing images |
 | `tenancy` | the tenant carried in a context, and per-tenant caches |

@@ -1,0 +1,24 @@
+// Options that describe how an entity is stored. protoc-gen-go-entity reads
+// them and generates the entity's Scheme entry.
+syntax = "proto3";
+
+package x.entity;
+
+import "google/protobuf/descriptor.proto";
+
+option go_package = "github.com/iv-one/x/entity/entitypb";
+
+extend google.protobuf.MessageOptions {
+  // namespace prefixes every key of the entity. Unique across the entities of
+  // one Scheme, nonzero, and never reused once data has been written under it.
+  uint32 namespace = 50100;
+  // tenant scopes the entity's keys to the tenant in the context.
+  bool tenant = 50101;
+  // sensitive encrypts the entity at rest.
+  bool sensitive = 50102;
+}
+
+extend google.protobuf.FileOptions {
+  // retired lists namespaces of deleted entities, which no entity may take.
+  repeated uint32 retired = 50100;
+}

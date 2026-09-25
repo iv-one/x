@@ -1,3 +1,5 @@
 // Package entity defines the interfaces a stored record implements ([Entity],
-// [ID], [EntityList]); protoc-gen-go-entity generates them for proto messages.
+// [ID], [EntityList]) and the [Scheme] storage keys them by. Its options.proto
+// annotates proto messages with their storage options; protoc-gen-go-entity
+// generates the methods and the Scheme from them.
 package entity
