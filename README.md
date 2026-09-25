@@ -18,3 +18,7 @@ go get github.com/iv-one/x
 | `imagefetch`, `imagex` | fetching and canonicalizing images |
 | `tenancy` | the tenant carried in a context, and per-tenant caches |
 | `validate` | password, email, image URL and host checks |
+
+## License
+
+MIT, see [LICENSE](LICENSE).
