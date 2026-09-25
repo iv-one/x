@@ -1,0 +1,13 @@
+version: v2
+modules:
+  - path: .
+    name: buf.build/iv-one/entity
+lint:
+  use:
+    - STANDARD
+  except:
+    # Consumers write the package in their options, (x.entity.namespace), so it
+    # is a public name: moving it to x/entity or a versioned x.entity.v1 would
+    # break every proto that imports entity/options.proto.
+    - PACKAGE_DIRECTORY_MATCH
+    - PACKAGE_VERSION_SUFFIX

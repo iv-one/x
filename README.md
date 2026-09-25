@@ -19,6 +19,19 @@ go get github.com/iv-one/x
 | `tenancy` | the tenant carried in a context, and per-tenant caches |
 | `validate` | password, email, image URL and host checks |
 
+## Protos
+
+`entity/options.proto` is published to the Buf Schema Registry as
+[`buf.build/iv-one/entity`](https://buf.build/iv-one/entity), labeled with each release tag.
+A buf workspace takes it with `deps: [buf.build/iv-one/entity]` in `buf.yaml`, then
+`buf dep update`; with protoc, put this module's directory on the include path.
+
+Publish a release after tagging it:
+
+```sh
+buf push --label vX.Y.Z
+```
+
 ## License
 
 MIT, see [LICENSE](LICENSE).
