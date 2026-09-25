@@ -1,0 +1,60 @@
+version: '2'
+linters:
+  enable:
+    - bodyclose
+    - errname
+    - errorlint
+    - gocritic
+    - perfsprint
+    - prealloc
+    - revive
+    - tagalign
+    - testifylint
+    - wastedassign
+    - whitespace
+    - unused
+    - dupword
+    - misspell
+  disable:
+    - errcheck
+  settings:
+    gocritic:
+      # comment hygiene; both carry gocritic's experimental tag
+      enabled-checks:
+        - commentedOutCode
+        - commentedOutImport
+    misspell:
+      locale: US
+    revive:
+      rules:
+        - name: blank-imports
+        - name: context-as-argument
+        - name: context-keys-type
+        - name: dot-imports
+        - name: error-return
+        - name: error-strings
+        - name: error-naming
+        - name: increment-decrement
+        - name: var-naming
+          arguments: [[], [], [{ 'skip-package-name-checks': true }]]
+        - name: var-declaration
+        - name: package-comments
+        - name: range
+        - name: receiver-naming
+        - name: time-naming
+        - name: unexported-return
+        - name: indent-error-flow
+        - name: errorf
+        - name: empty-block
+        - name: superfluous-else
+        - name: unused-parameter
+        - name: unreachable-code
+        - name: redefines-builtin-id
+formatters:
+  enable:
+    - goimports
+issues:
+  # Report every hit, not golangci's default 3 per message: misspell alone
+  # undercounts by more than half under the cap.
+  max-issues-per-linter: 0
+  max-same-issues: 0
