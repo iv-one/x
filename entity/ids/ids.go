@@ -5,6 +5,7 @@ package ids
 
 import (
 	"crypto/rand"
+	"crypto/subtle"
 	"encoding/base64"
 	"encoding/binary"
 	"errors"
@@ -31,6 +32,17 @@ var (
 	_ entity.ID = (*NilID)(nil)
 )
 
+// eq is the Eq of every id here: both set and the same string form.
+func eq(a, b entity.ID) bool {
+	return !a.IsNil() && !isNil(b) && a.Str() == b.Str()
+}
+
+// isNil reports whether id is unset, as a nil interface, a typed nil, or an
+// id whose IsNil says so. Every IsNil here is safe on a nil receiver.
+func isNil(id entity.ID) bool {
+	return id == nil || id.IsNil()
+}
+
 // ID
 
 // NewID returns a new xid.
@@ -47,26 +59,26 @@ func IDFromString(s string) (*ID, error) {
 	return &ID{Ids: x.Bytes()}, nil
 }
 
-// Str returns the xid string. It panics when the bytes are not an xid.
+// Str returns the xid string, or "" when the bytes are not an xid.
 func (t *ID) Str() string {
-	x, err := xid.FromBytes(t.Ids)
+	x, err := xid.FromBytes(t.GetIds())
 	if err != nil {
-		panic(err)
+		return ""
 	}
 	return x.String()
 }
 
 // Bytes returns the xid bytes.
-func (t *ID) Bytes() []byte { return t.Ids }
+func (t *ID) Bytes() []byte { return t.GetIds() }
 
-// Eq reports whether id has the same string form.
-func (t *ID) Eq(id entity.ID) bool { return id != nil && t.Str() == id.Str() }
+// Eq reports whether id is the same set id; see [entity.ID].
+func (t *ID) Eq(id entity.ID) bool { return eq(t, id) }
 
-// NotEq reports whether id is nil or has a different string form.
-func (t *ID) NotEq(id entity.ID) bool { return id == nil || t.Str() != id.Str() }
+// NotEq is !Eq.
+func (t *ID) NotEq(id entity.ID) bool { return !eq(t, id) }
 
-// IsNil reports whether the id is unset.
-func (t *ID) IsNil() bool { return t == nil || t.Ids == nil }
+// IsNil reports whether the id is unset or not an xid.
+func (t *ID) IsNil() bool { return len(t.GetIds()) != 12 }
 
 // UUID
 
@@ -85,33 +97,41 @@ func UUIDFromString(s string) (*UUID, error) {
 	return &UUID{Uuid: id[:]}, nil
 }
 
-// Str returns the canonical UUID form.
+// Str returns the canonical UUID form, or "" when unset.
 func (t *UUID) Str() string {
-	var id uuid.UUID
-	copy(id[:], t.Uuid[:16])
-	return id.String()
+	if t.IsNil() {
+		return ""
+	}
+	return uuid.UUID(t.Uuid[:16]).String()
 }
 
-// Bytes returns the 16 UUID bytes.
-func (t *UUID) Bytes() []byte { return t.Uuid[:16] }
+// Bytes returns the 16 UUID bytes, or nil when unset.
+func (t *UUID) Bytes() []byte {
+	if t.IsNil() {
+		return nil
+	}
+	return t.Uuid[:16]
+}
 
-// Eq reports whether id has the same string form.
-func (t *UUID) Eq(id entity.ID) bool { return id != nil && t.Str() == id.Str() }
+// Eq reports whether id is the same set id; see [entity.ID].
+func (t *UUID) Eq(id entity.ID) bool { return eq(t, id) }
 
-// IsNil reports whether the id is unset.
-func (t *UUID) IsNil() bool { return t == nil || t.Uuid == nil }
+// IsNil reports whether the id is unset or shorter than 16 bytes.
+func (t *UUID) IsNil() bool { return len(t.GetUuid()) < 16 }
 
 // TenantID
 
 // ErrInvalidTenantID is returned for a string that is not a hex uint32.
 var ErrInvalidTenantID = errors.New("invalid tenant ID")
 
-// tenantCounter is the last number NewTenantID handed out, seeded at random.
+// tenantCounter is the last number NewTestTenantID handed out, seeded at
+// random.
 var tenantCounter = randUint24()
 
-// NewTenantID returns the next tenant id of a process-local counter. It is
-// unique within the process only; a store hands out lasting tenant ids.
-func NewTenantID() *TenantID {
+// NewTestTenantID returns the next tenant id of a process-local counter, for
+// tests. It is unique within the process only; a store hands out lasting
+// tenant ids.
+func NewTestTenantID() *TenantID {
 	return TenantIDFromInt32(atomic.AddUint32(&tenantCounter, 1))
 }
 
@@ -139,20 +159,30 @@ func TenantIDFromString(s string) (*TenantID, error) {
 	return TenantIDFromInt32(uint32(n)), nil
 }
 
-// UInt32 returns the number of the tenant id.
-func (t *TenantID) UInt32() uint32 { return binary.LittleEndian.Uint32(t.Tid) }
+// UInt32 returns the number of the tenant id, or 0 when unset.
+func (t *TenantID) UInt32() uint32 {
+	if t.IsNil() {
+		return 0
+	}
+	return binary.LittleEndian.Uint32(t.Tid)
+}
 
-// Str returns the hex form, 0x1a2b.
-func (t *TenantID) Str() string { return fmt.Sprintf("0x%x", t.UInt32()) }
+// Str returns the hex form, 0x1a2b, or "" when unset.
+func (t *TenantID) Str() string {
+	if t.IsNil() {
+		return ""
+	}
+	return fmt.Sprintf("0x%x", t.UInt32())
+}
 
 // Bytes returns the four key-prefix bytes.
-func (t *TenantID) Bytes() []byte { return t.Tid }
+func (t *TenantID) Bytes() []byte { return t.GetTid() }
 
-// Eq reports whether other has the same string form.
-func (t *TenantID) Eq(other entity.ID) bool { return t.Str() == other.Str() }
+// Eq reports whether id is the same set id; see [entity.ID].
+func (t *TenantID) Eq(id entity.ID) bool { return eq(t, id) }
 
-// IsNil reports whether the id is unset.
-func (t *TenantID) IsNil() bool { return t == nil || t.Tid == nil }
+// IsNil reports whether the id is unset or shorter than four bytes.
+func (t *TenantID) IsNil() bool { return len(t.GetTid()) < 4 }
 
 func randUint24() uint32 {
 	b := make([]byte, 3)
@@ -168,16 +198,16 @@ func randUint24() uint32 {
 func NewSID(s string) *SID { return &SID{Sid: s} }
 
 // Str returns the string.
-func (t *SID) Str() string { return t.Sid }
+func (t *SID) Str() string { return t.GetSid() }
 
 // Bytes returns the string's bytes.
-func (t *SID) Bytes() []byte { return []byte(t.Sid) }
+func (t *SID) Bytes() []byte { return []byte(t.GetSid()) }
 
-// Eq reports whether id has the same string.
-func (t *SID) Eq(id entity.ID) bool { return id != nil && t.Sid == id.Str() }
+// Eq reports whether id is the same set id; see [entity.ID].
+func (t *SID) Eq(id entity.ID) bool { return eq(t, id) }
 
 // IsNil reports whether the id is unset or empty.
-func (t *SID) IsNil() bool { return t == nil || t.Sid == "" }
+func (t *SID) IsNil() bool { return t.GetSid() == "" }
 
 // EmailID
 
@@ -187,19 +217,19 @@ func NewEmailID(s string) *EmailID {
 }
 
 // Str returns the address.
-func (t *EmailID) Str() string { return t.Email }
+func (t *EmailID) Str() string { return t.GetEmail() }
 
 // Bytes returns the address's bytes.
-func (t *EmailID) Bytes() []byte { return []byte(t.Email) }
+func (t *EmailID) Bytes() []byte { return []byte(t.GetEmail()) }
 
-// Eq reports whether id has the same string form.
-func (t *EmailID) Eq(id entity.ID) bool { return id != nil && t.Str() == id.Str() }
+// Eq reports whether id is the same set id; see [entity.ID].
+func (t *EmailID) Eq(id entity.ID) bool { return eq(t, id) }
 
 // ToSID returns the address as a string id.
 func (t *EmailID) ToSID() *SID { return NewSID(t.Str()) }
 
 // IsNil reports whether the id is unset or empty.
-func (t *EmailID) IsNil() bool { return t == nil || t.Email == "" }
+func (t *EmailID) IsNil() bool { return t.GetEmail() == "" }
 
 // TokenID
 
@@ -225,33 +255,49 @@ func TokenIDFromString(s string) (*TokenID, error) {
 }
 
 // Str returns the base64url form.
-func (t *TokenID) Str() string { return base64.URLEncoding.EncodeToString(t.Token) }
+func (t *TokenID) Str() string { return base64.URLEncoding.EncodeToString(t.GetToken()) }
 
 // Bytes returns the token bytes.
-func (t *TokenID) Bytes() []byte { return t.Token }
+func (t *TokenID) Bytes() []byte { return t.GetToken() }
 
-// Eq reports whether id has the same string form.
-func (t *TokenID) Eq(id entity.ID) bool { return id != nil && t.Str() == id.Str() }
+// Eq reports whether id is the same set id; see [entity.ID]. It compares in
+// constant time, so it is safe for a presented token against a stored one.
+func (t *TokenID) Eq(id entity.ID) bool {
+	if t.IsNil() || isNil(id) {
+		return false
+	}
+	return subtle.ConstantTimeCompare([]byte(t.Str()), []byte(id.Str())) == 1
+}
 
 // IsNil reports whether the id is unset.
-func (t *TokenID) IsNil() bool { return t == nil || t.Token == nil }
+func (t *TokenID) IsNil() bool { return len(t.GetToken()) == 0 }
 
 // Rel
 
 // NewRel returns the relation from one entity to another.
 func NewRel(from, to *ID) *Rel { return &Rel{From: from, To: to} }
 
-// Str returns from:to.
-func (t *Rel) Str() string { return fmt.Sprintf("%s:%s", t.From.Str(), t.To.Str()) }
+// Str returns from:to, or "" when either end is unset.
+func (t *Rel) Str() string {
+	if t.IsNil() {
+		return ""
+	}
+	return t.From.Str() + ":" + t.To.Str()
+}
 
-// Bytes returns the from bytes followed by the to bytes.
-func (t *Rel) Bytes() []byte { return append(t.From.Bytes(), t.To.Bytes()...) }
+// Bytes returns the from bytes followed by the to bytes, in a new slice that
+// shares no memory with either end.
+func (t *Rel) Bytes() []byte {
+	from, to := t.GetFrom().Bytes(), t.GetTo().Bytes()
+	out := make([]byte, 0, len(from)+len(to))
+	return append(append(out, from...), to...)
+}
 
-// Eq reports whether id has the same string form.
-func (t *Rel) Eq(id entity.ID) bool { return id != nil && t.Str() == id.Str() }
+// Eq reports whether id is the same set id; see [entity.ID].
+func (t *Rel) Eq(id entity.ID) bool { return eq(t, id) }
 
 // IsNil reports whether the relation or either end is unset.
-func (t *Rel) IsNil() bool { return t == nil || t.From == nil || t.To == nil }
+func (t *Rel) IsNil() bool { return t.GetFrom().IsNil() || t.GetTo().IsNil() }
 
 // NilID
 
@@ -264,8 +310,8 @@ func (t *NilID) Str() string { return "" }
 // Bytes returns no bytes.
 func (t *NilID) Bytes() []byte { return []byte{} }
 
-// Eq reports whether id is nil or empty.
-func (t *NilID) Eq(id entity.ID) bool { return id == nil || id.Str() == "" }
+// Eq is always false: the empty id equals nothing; see [entity.ID].
+func (t *NilID) Eq(_ entity.ID) bool { return false }
 
 // IsNil reports whether t is nil.
 func (t *NilID) IsNil() bool { return t == nil }

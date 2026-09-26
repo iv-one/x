@@ -19,7 +19,11 @@ func (e EntityType) String() string {
 	return string(e)
 }
 
-// ID is an interface for entity IDs
+// ID is an interface for entity IDs.
+//
+// Eq reports whether both ids are set and have the same Str: an unset id (nil,
+// typed nil, or IsNil) equals nothing, itself included, so two missing ids
+// never match. Str, Bytes, Eq and IsNil never panic, on a nil receiver either.
 type ID interface {
 	Str() string
 	Bytes() []byte
@@ -75,7 +79,7 @@ func (r RawID) Bytes() []byte {
 
 // Eq returns true if the raw ID is equal to the given ID
 func (r RawID) Eq(id ID) bool {
-	return r.Str() == id.Str()
+	return len(r) > 0 && id != nil && !id.IsNil() && r.Str() == id.Str()
 }
 
 // IsNil returns true if the raw ID is nil
