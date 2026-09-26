@@ -1,0 +1,49 @@
+// The key types an entity's id field takes. Each implements entity.ID in
+// ids.go, so a message whose id is one of them needs no hand-written code.
+syntax = "proto3";
+
+package x.entity.ids;
+
+option go_package = "github.com/iv-one/x/entity/ids";
+
+// ID is a 12-byte xid.
+message ID {
+  bytes ids = 1;
+}
+
+// UUID is a 16-byte UUID v4.
+message UUID {
+  bytes uuid = 1;
+}
+
+// TenantID is a 4-byte little-endian uint32, the prefix of every tenant-scoped
+// key.
+message TenantID {
+  bytes tid = 1;
+}
+
+// SID is a string id.
+message SID {
+  string sid = 1;
+}
+
+// EmailID is an email address, lowercased and trimmed.
+message EmailID {
+  string email = 1;
+}
+
+// TokenID is random bytes, written as base64url.
+message TokenID {
+  bytes token = 1;
+}
+
+// Rel is the composite key of a relation between two entities.
+message Rel {
+  ID from = 1;
+  ID to = 2;
+}
+
+// NilID is the empty id of a singleton.
+message NilID {
+  int32 idx = 1;
+}

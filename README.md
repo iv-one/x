@@ -14,6 +14,7 @@ go get github.com/iv-one/x
 | `clock` | a process clock that can run ahead, for testing expiry |
 | `cryptox` | random keys and passwords |
 | `entity` | the `Entity` / `ID` interfaces and the storage `Scheme` that `protoc-gen-go-entity` generates; `options.proto` annotates messages with their storage options |
+| `entity/ids` | the key types an entity's `id` field takes (`ID`, `UUID`, `TenantID`, `SID`, `EmailID`, `TokenID`, `Rel`, `NilID`), proto messages that implement `entity.ID` |
 | `errorsx`, `errorsx/raise` | HTTP-shaped errors; errors wrapped with their call site |
 | `imagefetch`, `imagex` | fetching and canonicalizing images |
 | `tenancy` | the tenant carried in a context, and per-tenant caches |
@@ -21,12 +22,12 @@ go get github.com/iv-one/x
 
 ## Protos
 
-`entity/options.proto` is published to the Buf Schema Registry as
+`entity/options.proto` and `entity/ids/ids.proto` are published to the Buf Schema Registry as
 [`buf.build/iv-one/entity`](https://buf.build/iv-one/entity), labeled with each release tag.
 A buf workspace takes it with `deps: [buf.build/iv-one/entity]` in `buf.yaml`, then
 `buf dep update`; with protoc, put this module's directory on the include path.
 
-Publish a release after tagging it:
+`buf generate` regenerates the Go code. Publish a release after tagging it:
 
 ```sh
 buf push --label vX.Y.Z

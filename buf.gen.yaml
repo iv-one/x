@@ -1,0 +1,7 @@
+version: v2
+inputs:
+  - directory: .
+plugins:
+  - remote: buf.build/protocolbuffers/go:v1.36.12
+    out: .
+    opt: module=github.com/iv-one/x
