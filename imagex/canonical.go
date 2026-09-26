@@ -51,13 +51,19 @@ var scaler = draw.CatmullRom
 // neither judges the upload, so §3.8 callers should treat them as internal.
 //
 // Reads at most maxBytes+1 from r; the extra byte separates "at the cap" from
-// "over it".
+// "over it". ReadCapped and CanonicalBytes are its two halves, for a caller
+// that bounds the read before it can afford the decode.
 func Canonical(r io.Reader, maxBytes int64) (Image, error) {
-	buf, err := readCapped(r, maxBytes)
+	buf, err := ReadCapped(r, maxBytes)
 	if err != nil {
 		return Image{}, err
 	}
 
+	return CanonicalBytes(buf)
+}
+
+// CanonicalBytes is Canonical over bytes already read.
+func CanonicalBytes(buf []byte) (Image, error) {
 	if !accepted(buf) {
 		return Image{}, raise.Error(ErrUnsupportedFormat)
 	}
@@ -78,9 +84,9 @@ func Canonical(r io.Reader, maxBytes int64) (Image, error) {
 	return encode(scale(img, alpha), alpha)
 }
 
-// readCapped reads r into memory, refusing an upload over the cap. Bounded
+// ReadCapped reads r into memory, refusing an upload over the cap. Bounded
 // before anything is read, so a gigabyte claim costs maxBytes+1.
-func readCapped(r io.Reader, maxBytes int64) ([]byte, error) {
+func ReadCapped(r io.Reader, maxBytes int64) ([]byte, error) {
 	buf, err := io.ReadAll(io.LimitReader(r, maxBytes+1))
 	if err != nil {
 		// Not one of the four: the upload never arrived, so nothing was judged.
