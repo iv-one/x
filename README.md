@@ -27,11 +27,10 @@ go get github.com/iv-one/x
 A buf workspace takes it with `deps: [buf.build/iv-one/entity]` in `buf.yaml`, then
 `buf dep update`; with protoc, put this module's directory on the include path.
 
-`buf generate` regenerates the Go code. Publish a release after tagging it:
-
-```sh
-buf push --label vX.Y.Z
-```
+`buf generate` regenerates the Go code. CI (`.github/workflows/ci.yml`) tests, lints,
+checks the generated code and `buf breaking` against the previous tag. Pushing a `vX.Y.Z`
+tag releases: the Go module is the tag, and CI pushes the protos to the BSR labeled
+`vX.Y.Z` with the `BUF_TOKEN` repository secret.
 
 ## License
 
