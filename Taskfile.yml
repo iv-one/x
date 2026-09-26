@@ -1,0 +1,30 @@
+version: '3'
+
+tasks:
+  release:
+    desc: 'Release x: task release -- vX.Y.Z. Checks locally, pushes main and the tag, then waits for CI, which publishes the protos to the BSR'
+    vars:
+      V: '{{.CLI_ARGS}}'
+    preconditions:
+      - sh: echo '{{.V}}' | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+$'
+        msg: 'usage: task release -- vX.Y.Z'
+      - sh: test "$(git branch --show-current)" = main
+        msg: release from main
+      - sh: test -z "$(git status --porcelain)"
+        msg: commit or stash first; the tag must be what CI checks
+      - sh: '! git rev-parse -q --verify "refs/tags/{{.V}}" >/dev/null'
+        msg: '{{.V}} already exists'
+    cmds:
+      - go test ./...
+      - buf lint
+      - buf format --diff --exit-code
+      - git tag {{.V}}
+      - git push origin main {{.V}}
+      # The run appears a few seconds after the push.
+      - |
+        for i in $(seq 20); do
+          id="$(gh run list --workflow CI --branch {{.V}} --limit 1 --json databaseId --jq '.[0].databaseId')"
+          [ -n "$id" ] && break
+          sleep 3
+        done
+        gh run watch "$id" --exit-status
