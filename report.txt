@@ -1,0 +1,60 @@
+goquality report for iv-one/x@74a9436f2a9373c3da1cc7513430042bcc104ed4 (2026-09-27)
+
+Go Quality  github.com/iv-one/x
+
+Grade ................................. A+
+Score .............................. 99.3%
+
+Project
+  go version ...................... 1.27.1
+  packages ............................ 13
+  go files ............................ 62
+  test files .......................... 25
+  generated files ...................... 2
+  lines of code .................... 2,149
+  lines of test code ............... 2,512
+  functions .......................... 224
+  dependencies ......................... 7
+  direct dependencies .................. 5
+
+Correctness
+  build ............................. PASS
+  go vet ............................ PASS
+  staticcheck ....................... PASS
+  errcheck .......................... PASS
+  ineffassign ....................... PASS
+
+Maintainability
+  gofmt ............................. 100%
+  complexity ........................ 100%
+    average complexity ............... 2.4
+    max complexity .................... 15
+    most complex .. errorsx.(HTTPError).Is
+    functions > 15 ..................... 0
+  misspell .......................... PASS
+  nolint ............................ PASS
+  license ........................ LICENSE
+
+Tests
+  tests .............................. 119
+    packages tested ................ 12/12
+    test files ........................ 25
+    examples ........................... 1
+  coverage ......................... 91.5%
+    tests passed ..................... 120
+    tests failed ....................... 0
+
+Security
+  vulnerabilities ...................... 0
+    affected modules ................... 0
+    imported, not called ............... 0
+    required, not imported ............. 0
+  security findings .................... 0
+    high ............................... 0
+    medium ............................. 0
+    low ................................ 0
+
+Overall
+  issues ............................... 0
+  time ............................. 11.5s
+  goquality version .............. (devel)
