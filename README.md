@@ -1,5 +1,8 @@
 # x
 
+[![Go Quality score](https://raw.githubusercontent.com/iv-one/x/quality-history/badges/score.svg)](https://github.com/iv-one/x/blob/quality-history/report.txt)
+[![Go Quality grade](https://raw.githubusercontent.com/iv-one/x/quality-history/badges/grade.svg)](https://github.com/iv-one/x/blob/quality-history/report.txt)
+
 Small Go packages: helpers, entity interfaces, per-tenant context and caches,
 image checks.
 
