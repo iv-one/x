@@ -5,6 +5,9 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
+	"github.com/iv-one/x"
 )
 
 func TestPasswordValidator(t *testing.T) {
@@ -184,4 +187,21 @@ func TestPublicHost(t *testing.T) {
 			assert.Equal(t, tt.public, PublicHost(tt.host))
 		})
 	}
+}
+
+func TestPassword(t *testing.T) {
+	require.ErrorIs(t, Password(x.Sensitive(""), PasswordStrengthNone), ErrEmptyPassword)
+	require.NoError(t, Password(x.Sensitive("a"), PasswordStrengthNone))
+
+	require.ErrorIs(t, Password(x.Sensitive("short"), PasswordStrengthWeak), ErrInvalidPassword)
+	require.NoError(t, Password(x.Sensitive("longenough"), PasswordStrengthWeak))
+
+	require.ErrorIs(t, Password(x.Sensitive("Abc@123"), PasswordStrengthStrong), ErrInvalidPassword)
+	require.NoError(t, Password(x.Sensitive("Abc@123xyz"), PasswordStrengthStrong))
+}
+
+func TestEmail(t *testing.T) {
+	require.ErrorIs(t, Email(""), ErrEmptyEmail)
+	require.ErrorIs(t, Email("not an email"), ErrInvalidEmail)
+	require.NoError(t, Email("user@example.com"))
 }

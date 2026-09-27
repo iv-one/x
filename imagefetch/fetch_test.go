@@ -269,7 +269,7 @@ func TestFetchOverLoopback(t *testing.T) {
 	t.Run("a 200 image streams back", func(t *testing.T) {
 		body, err := fetch("/ok.png")
 		require.NoError(t, err)
-		defer body.Close()
+		defer func() { assert.NoError(t, body.Close()) }()
 
 		got, err := io.ReadAll(body)
 		require.NoError(t, err)
@@ -289,14 +289,14 @@ func TestFetchOverLoopback(t *testing.T) {
 	t.Run("no content type is left to the pipeline", func(t *testing.T) {
 		body, err := fetch("/untyped")
 		require.NoError(t, err)
-		defer body.Close()
+		defer func() { assert.NoError(t, body.Close()) }()
 	})
 
 	t.Run("three redirects still arrive", func(t *testing.T) {
 		// n=2 is two more hops after the first, so three redirects in all.
 		body, err := fetch("/hop?n=2")
 		require.NoError(t, err)
-		defer body.Close()
+		defer func() { assert.NoError(t, body.Close()) }()
 
 		got, err := io.ReadAll(body)
 		require.NoError(t, err)
