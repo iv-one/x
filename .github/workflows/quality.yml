@@ -1,0 +1,23 @@
+name: Quality
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Set up Go
+        uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+      - name: Publish goquality report and badges
+        uses: iv-one/goquality@v0
+        with:
+          command: publish
+          args: --cover
