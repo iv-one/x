@@ -243,3 +243,13 @@ func TestSubdomain(t *testing.T) {
 	assert.Equal(t, "example", Subdomain("https://example.com"), "Valid URL without Subdomain")
 	assert.Empty(t, Subdomain(""), "Empty URL")
 }
+
+func TestIsSameHostname(t *testing.T) {
+	assert.True(t, IsSameHostname("https://example.com:8443", "http://example.com"))
+	assert.False(t, IsSameHostname("https://example.com", "https://example.org"))
+}
+
+func TestURLToPath(t *testing.T) {
+	assert.Equal(t, "https://example.com", URLToPath("https://example.com"))
+	assert.Equal(t, "https://example.com/a/b", URLToPath("https://example.com", "a", "/b"))
+}
