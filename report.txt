@@ -1,9 +1,9 @@
-goquality report for iv-one/x@74a9436f2a9373c3da1cc7513430042bcc104ed4 (2026-09-27)
+goquality report for iv-one/x@fa38d24f3718bd45ad43d8170aceb367aa1a13f2 (2026-11-21)
 
 Go Quality  github.com/iv-one/x
 
 Grade ................................. A+
-Score .............................. 99.3%
+Score .............................. 99.2%
 
 Project
   go version ...................... 1.27.1
@@ -40,7 +40,7 @@ Tests
     packages tested ................ 12/12
     test files ........................ 25
     examples ........................... 1
-  coverage ......................... 91.5%
+  coverage ......................... 90.6%
     tests passed ..................... 120
     tests failed ....................... 0
 
@@ -56,5 +56,5 @@ Security
 
 Overall
   issues ............................... 0
-  time ............................. 11.5s
+  time .............................. 8.3s
   goquality version .............. (devel)
