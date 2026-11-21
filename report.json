@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "goquality_version": "(devel)",
-  "commit": "fa38d24f3718bd45ad43d8170aceb367aa1a13f2",
-  "timestamp": "2026-11-21T16:26:46Z",
+  "commit": "82e761031e76afab3e6c25cfaa97181d193baf11",
+  "timestamp": "2026-11-21T18:22:47Z",
   "settings": {
     "patterns": [
       "./..."
@@ -30,7 +30,7 @@
     "goquality_version": "(devel)",
     "project": {
       "module": "github.com/iv-one/x",
-      "go_version": "1.27.1",
+      "go_version": "1.27.4",
       "packages": 13,
       "tested_packages": 12,
       "go_files": 62,
@@ -61,7 +61,7 @@
         "summary": "PASS",
         "weight": 0.1,
         "score": 1,
-        "duration_seconds": 0.000002193
+        "duration_seconds": 0.000003636
       },
       {
         "name": "govet",
@@ -71,7 +71,7 @@
         "summary": "PASS",
         "weight": 0.2,
         "score": 1,
-        "duration_seconds": 4.696021841
+        "duration_seconds": 5.993792854
       },
       {
         "name": "staticcheck",
@@ -81,7 +81,7 @@
         "summary": "PASS",
         "weight": 0.15,
         "score": 1,
-        "duration_seconds": 4.704715775
+        "duration_seconds": 5.9844417530000005
       },
       {
         "name": "errcheck",
@@ -91,7 +91,7 @@
         "summary": "PASS",
         "weight": 0.1,
         "score": 1,
-        "duration_seconds": 4.704279084
+        "duration_seconds": 5.98247297
       },
       {
         "name": "ineffassign",
@@ -101,7 +101,7 @@
         "summary": "PASS",
         "weight": 0.05,
         "score": 1,
-        "duration_seconds": 4.70428303
+        "duration_seconds": 5.973064638
       },
       {
         "name": "gofmt",
@@ -111,7 +111,7 @@
         "summary": "100%",
         "weight": 0.15,
         "score": 1,
-        "duration_seconds": 0.178000825
+        "duration_seconds": 0.303175044
       },
       {
         "name": "complexity",
@@ -143,7 +143,7 @@
             "value": 0
           }
         ],
-        "duration_seconds": 0.000463811
+        "duration_seconds": 0.000468926
       },
       {
         "name": "misspell",
@@ -153,7 +153,7 @@
         "summary": "PASS",
         "weight": 0.02,
         "score": 1,
-        "duration_seconds": 0.529129624
+        "duration_seconds": 0.311616719
       },
       {
         "name": "nolint",
@@ -162,7 +162,7 @@
         "status": "info",
         "summary": "PASS",
         "weight": 0,
-        "duration_seconds": 0.002267004
+        "duration_seconds": 0.296765766
       },
       {
         "name": "license",
@@ -172,7 +172,7 @@
         "summary": "LICENSE",
         "weight": 0.03,
         "score": 1,
-        "duration_seconds": 0.000043235
+        "duration_seconds": 0.296447283
       },
       {
         "name": "tests",
@@ -199,7 +199,7 @@
             "value": 1
           }
         ],
-        "duration_seconds": 0.007740631
+        "duration_seconds": 0.005972729
       },
       {
         "name": "coverage",
@@ -221,7 +221,7 @@
             "value": 0
           }
         ],
-        "duration_seconds": 8.347965723
+        "duration_seconds": 10.251218484
       },
       {
         "name": "govulncheck",
@@ -248,7 +248,7 @@
             "value": 0
           }
         ],
-        "duration_seconds": 7.421759428
+        "duration_seconds": 8.181044353
       },
       {
         "name": "gosec",
@@ -275,7 +275,7 @@
             "value": 0
           }
         ],
-        "duration_seconds": 0.725314906
+        "duration_seconds": 0.459442051
       }
     ],
     "next_steps": [
@@ -288,6 +288,6 @@
         "hint": "Add tests for uncovered code; go test -coverpkg=./... -coverprofile=c.out ./... \u0026\u0026 go tool cover -func=c.out shows the gaps."
       }
     ],
-    "duration_seconds": 8.348018654
+    "duration_seconds": 10.251551504
   }
 }
