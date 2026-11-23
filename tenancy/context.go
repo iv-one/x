@@ -11,7 +11,7 @@ import (
 
 var (
 	// ErrNoTenant is an error that occurs when no tenant information is available in the provided context.
-	ErrNoTenant = errorsx.ErrUnauthorized.WithReason("No tenant information available in the provided context. Please ensure the context is initialized with tenant data.")
+	ErrNoTenant = errorsx.ErrUnauthenticated.WithMessage("No tenant information available in the provided context. Please ensure the context is initialized with tenant data.")
 
 	// ErrInvalidTenant is an error that occurs when the tenant information is invalid.
 	ErrInvalidTenant = errors.New("invalid tenant format")
