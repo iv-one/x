@@ -18,7 +18,7 @@ go get github.com/iv-one/x
 | `cryptox` | random keys and passwords |
 | `entity` | the `Entity` / `ID` interfaces and the storage `Scheme` that `protoc-gen-go-entity` generates; `options.proto` annotates messages with their storage options |
 | `entity/ids` | the key types an entity's `id` field takes (`ID`, `UUID`, `TenantID`, `SID`, `EmailID`, `TokenID`, `Rel`, `NilID`), proto messages that implement `entity.ID` |
-| `errorsx`, `errorsx/raise` | Errors in the model of AIP-193 (code, reason, metadata, message); errors wrapped with their call site |
+| `errorsx`, `errorsx/raise` | HTTP-shaped errors; errors wrapped with their call site |
 | `imagefetch`, `imagex` | fetching and canonicalizing images |
 | `tenancy` | the tenant carried in a context, and per-tenant caches |
 | `validate` | password, email, image URL and host checks |

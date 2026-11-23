@@ -25,13 +25,13 @@ var (
 	ErrInvalidPassword = errors.New("invalid password")
 
 	// ErrInvalidEmailFormat is the error for invalid email format.
-	ErrInvalidEmailFormat = errorsx.ErrInvalidArgument.WithMessage("Invalid Email Format: The provided email address does not meet the required format standards. Please check and correct the email address.")
+	ErrInvalidEmailFormat = errorsx.ErrBadRequest.WithReason("Invalid Email Format: The provided email address does not meet the required format standards. Please check and correct the email address.")
 	// ErrMissingPassword is the error for missing password.
-	ErrMissingPassword = errorsx.ErrInvalidArgument.WithMessage("Password field is empty. Please provide a password.")
+	ErrMissingPassword = errorsx.ErrBadRequest.WithReason("Password field is empty. Please provide a password.")
 	// ErrInvalidPasswordStrength is the error for invalid password strength.
-	ErrInvalidPasswordStrength = errorsx.ErrInvalidArgument.WithMessage("Invalid Password: The provided password does not meet the required strength criteria. Please use a stronger password.")
+	ErrInvalidPasswordStrength = errorsx.ErrBadRequest.WithReason("Invalid Password: The provided password does not meet the required strength criteria. Please use a stronger password.")
 	// ErrInvalidImageSrc is the error for an invalid image source.
-	ErrInvalidImageSrc = errorsx.ErrInvalidArgument.WithMessage("Invalid Image Source: must be a URL on this instance's own origin, an http URL on a loopback host, or a same-origin path starting with '/', at most 2048 characters.")
+	ErrInvalidImageSrc = errorsx.ErrBadRequest.WithReason("Invalid Image Source: must be a URL on this instance's own origin, an http URL on a loopback host, or a same-origin path starting with '/', at most 2048 characters.")
 )
 
 // MaxImageURLLen caps image source length. Browsers and CDNs commonly
