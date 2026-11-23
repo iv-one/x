@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "goquality_version": "(devel)",
-  "commit": "82e761031e76afab3e6c25cfaa97181d193baf11",
-  "timestamp": "2026-11-21T18:22:47Z",
+  "commit": "524f3b19d7c8f3cc15554cfc22e5fb59f78eea21",
+  "timestamp": "2026-11-23T17:06:41Z",
   "settings": {
     "patterns": [
       "./..."
@@ -33,14 +33,14 @@
       "go_version": "1.27.4",
       "packages": 13,
       "tested_packages": 12,
-      "go_files": 62,
-      "test_files": 25,
+      "go_files": 60,
+      "test_files": 22,
       "generated_files": 2,
-      "lines": 6655,
-      "code_lines": 2149,
-      "test_code_lines": 2512,
-      "functions": 224,
-      "tests": 119,
+      "lines": 6486,
+      "code_lines": 2078,
+      "test_code_lines": 2444,
+      "functions": 216,
+      "tests": 117,
       "benchmarks": 0,
       "fuzz_tests": 0,
       "examples": 1,
@@ -49,7 +49,7 @@
       "build_dependencies": 7
     },
     "grade": "A+",
-    "score": 99.24838012958963,
+    "score": 99.23008849557522,
     "issues": 0,
     "suppressed": 0,
     "checks": [
@@ -61,7 +61,7 @@
         "summary": "PASS",
         "weight": 0.1,
         "score": 1,
-        "duration_seconds": 0.000003636
+        "duration_seconds": 0.000004026
       },
       {
         "name": "govet",
@@ -71,7 +71,7 @@
         "summary": "PASS",
         "weight": 0.2,
         "score": 1,
-        "duration_seconds": 5.993792854
+        "duration_seconds": 2.864004992
       },
       {
         "name": "staticcheck",
@@ -81,7 +81,7 @@
         "summary": "PASS",
         "weight": 0.15,
         "score": 1,
-        "duration_seconds": 5.9844417530000005
+        "duration_seconds": 2.871987806
       },
       {
         "name": "errcheck",
@@ -91,7 +91,7 @@
         "summary": "PASS",
         "weight": 0.1,
         "score": 1,
-        "duration_seconds": 5.98247297
+        "duration_seconds": 2.871978236
       },
       {
         "name": "ineffassign",
@@ -101,7 +101,7 @@
         "summary": "PASS",
         "weight": 0.05,
         "score": 1,
-        "duration_seconds": 5.973064638
+        "duration_seconds": 2.871979959
       },
       {
         "name": "gofmt",
@@ -111,7 +111,7 @@
         "summary": "100%",
         "weight": 0.15,
         "score": 1,
-        "duration_seconds": 0.303175044
+        "duration_seconds": 0.121406416
       },
       {
         "name": "complexity",
@@ -125,17 +125,17 @@
           {
             "key": "average",
             "label": "average complexity",
-            "value": 2.4
+            "value": 2.3
           },
           {
             "key": "max",
             "label": "max complexity",
-            "value": 15
+            "value": 11
           },
           {
             "key": "max_function",
             "label": "most complex",
-            "value": "errorsx.(HTTPError).Is"
+            "value": "imagefetch.(*Client).checkURL"
           },
           {
             "key": "over_threshold",
@@ -143,7 +143,7 @@
             "value": 0
           }
         ],
-        "duration_seconds": 0.000468926
+        "duration_seconds": 0.000463079
       },
       {
         "name": "misspell",
@@ -153,7 +153,7 @@
         "summary": "PASS",
         "weight": 0.02,
         "score": 1,
-        "duration_seconds": 0.311616719
+        "duration_seconds": 0.111473668
       },
       {
         "name": "nolint",
@@ -162,7 +162,7 @@
         "status": "info",
         "summary": "PASS",
         "weight": 0,
-        "duration_seconds": 0.296765766
+        "duration_seconds": 0.00125803
       },
       {
         "name": "license",
@@ -172,14 +172,14 @@
         "summary": "LICENSE",
         "weight": 0.03,
         "score": 1,
-        "duration_seconds": 0.296447283
+        "duration_seconds": 0.000051228
       },
       {
         "name": "tests",
         "label": "tests",
         "category": "tests",
         "status": "pass",
-        "summary": "119",
+        "summary": "117",
         "weight": 0.05,
         "score": 1,
         "metrics": [
@@ -191,7 +191,7 @@
           {
             "key": "test_files",
             "label": "test files",
-            "value": 25
+            "value": 22
           },
           {
             "key": "examples",
@@ -199,21 +199,21 @@
             "value": 1
           }
         ],
-        "duration_seconds": 0.005972729
+        "duration_seconds": 0.004682561
       },
       {
         "name": "coverage",
         "label": "coverage",
         "category": "tests",
         "status": "pass",
-        "summary": "90.6%",
+        "summary": "90.4%",
         "weight": 0.1,
-        "score": 0.906047516198704,
+        "score": 0.9037610619469026,
         "metrics": [
           {
             "key": "tests_passed",
             "label": "tests passed",
-            "value": 120
+            "value": 118
           },
           {
             "key": "tests_failed",
@@ -221,7 +221,7 @@
             "value": 0
           }
         ],
-        "duration_seconds": 10.251218484
+        "duration_seconds": 4.592125057
       },
       {
         "name": "govulncheck",
@@ -248,7 +248,7 @@
             "value": 0
           }
         ],
-        "duration_seconds": 8.181044353
+        "duration_seconds": 4.151550215
       },
       {
         "name": "gosec",
@@ -275,19 +275,19 @@
             "value": 0
           }
         ],
-        "duration_seconds": 0.459442051
+        "duration_seconds": 0.403867131
       }
     ],
     "next_steps": [
       {
         "check": "coverage",
         "label": "coverage",
-        "gain": 0.7516198704103658,
+        "gain": 0.7699115044247833,
         "issues": 0,
         "files": 0,
         "hint": "Add tests for uncovered code; go test -coverpkg=./... -coverprofile=c.out ./... \u0026\u0026 go tool cover -func=c.out shows the gaps."
       }
     ],
-    "duration_seconds": 10.251551504
+    "duration_seconds": 4.592218258
   }
 }
